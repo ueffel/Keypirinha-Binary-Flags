@@ -43,6 +43,7 @@ echo Using "%SEVENZIP%" to pack
     -x!%~nx0 ^
     -xr!.git ^
     -xr!usage.gif ^
+    -xr!usage2.gif ^
     -xr@.gitignore ^
     -x!.gitignore ^
     *
