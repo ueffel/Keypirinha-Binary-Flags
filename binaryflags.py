@@ -120,58 +120,40 @@ class BinaryFlags(kp.Plugin):
                 user_input = data_bag
 
             value = sum(flag_type.keys())
-            show_dez = True
-            show_hex = True
-            show_bin = True
 
             if self.DEZ.match(user_input):
                 value = int(user_input)
-                show_dez = False
-                show_hex = True
-                show_bin = True
             elif self.HEX.match(user_input):
                 value = int(user_input, 16)
-                show_dez = True
-                show_hex = False
-                show_bin = True
             elif self.BIN.match(user_input):
                 value = int(user_input, 2)
-                show_dez = True
-                show_hex = True
-                show_bin = False
             elif user_input:
                 value = 0
-                show_dez = False
-                show_hex = False
-                show_bin = False
 
-            if show_dez:
-                items.append(self.create_item(
-                        category=self.CATEGORY_VALUE,
-                        label="{:d}".format(value),
-                        short_desc="Dez",
-                        target=self.TARGET_DEZ,
-                        args_hint=kp.ItemArgsHint.FORBIDDEN,
-                        hit_hint=kp.ItemHitHint.IGNORE
-                    ))
-            if show_hex:
-                items.append(self.create_item(
-                        category=self.CATEGORY_VALUE,
-                        label="{:X}".format(value),
-                        short_desc="Hex",
-                        target=self.TARGET_HEX,
-                        args_hint=kp.ItemArgsHint.FORBIDDEN,
-                        hit_hint=kp.ItemHitHint.IGNORE
-                    ))
-            if show_bin:
-                items.append(self.create_item(
-                        category=self.CATEGORY_VALUE,
-                        label="{:b}".format(value),
-                        short_desc="Binary",
-                        target=self.TARGET_BIN,
-                        args_hint=kp.ItemArgsHint.FORBIDDEN,
-                        hit_hint=kp.ItemHitHint.IGNORE
-                    ))
+            items.append(self.create_item(
+                    category=self.CATEGORY_VALUE,
+                    label="{:d}".format(value),
+                    short_desc="Dez",
+                    target=self.TARGET_DEZ,
+                    args_hint=kp.ItemArgsHint.FORBIDDEN,
+                    hit_hint=kp.ItemHitHint.IGNORE
+                ))
+            items.append(self.create_item(
+                    category=self.CATEGORY_VALUE,
+                    label="{:X}".format(value),
+                    short_desc="Hex",
+                    target=self.TARGET_HEX,
+                    args_hint=kp.ItemArgsHint.FORBIDDEN,
+                    hit_hint=kp.ItemHitHint.IGNORE
+                ))
+            items.append(self.create_item(
+                    category=self.CATEGORY_VALUE,
+                    label="{:b}".format(value),
+                    short_desc="Binary",
+                    target=self.TARGET_BIN,
+                    args_hint=kp.ItemArgsHint.FORBIDDEN,
+                    hit_hint=kp.ItemHitHint.IGNORE
+                ))
 
             show_only_true = items_chain[-1].target().endswith(self.TARGET_SUFFIX_TRUE)
             show_only_false = items_chain[-1].target().endswith(self.TARGET_SUFFIX_FALSE)
