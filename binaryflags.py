@@ -3,6 +3,7 @@ import keypirinha_util as kpu
 import re
 import traceback
 import copy
+import math
 
 
 class BinaryFlags(kp.Plugin):
@@ -199,7 +200,7 @@ class BinaryFlags(kp.Plugin):
             flag = 1
             biggest_flag = max(flag_type.keys())
             binary_digits = max(biggest_flag.bit_length(), value.bit_length())
-            hex_digits = int(binary_digits / 4)
+            hex_digits = int(math.ceil(binary_digits / 4))
             dez_digits = len(str(biggest_flag))
 
             if flag_meta.base == 2:
@@ -219,18 +220,17 @@ class BinaryFlags(kp.Plugin):
                     if flag in flag_type:
                         items.append(self.create_item(
                             category=self.CATEGORY_SINGLE_FLAG,
-                            label=str(flag_set).lower()
+                            label=format_str.format(flag,
+                                                    flag_type[flag],
+                                                    bit_length=binary_digits,
+                                                    hex_length=hex_digits,
+                                                    length=dez_digits)
                             if show_all else format_str.format(flag,
                                                                flag_type[flag],
                                                                bit_length=binary_digits,
                                                                hex_length=hex_digits,
                                                                length=dez_digits),
-                            short_desc=(format_str.format(flag,
-                                                          flag_type[flag],
-                                                          bit_length=binary_digits,
-                                                          hex_length=hex_digits,
-                                                          length=dez_digits)
-                                        if show_all else "")
+                            short_desc=(str(flag_set).lower() if show_all else "")
                             + "   (press tab to toggle, enter to copy)",
                             target=self.TARGET_PREFIX_FLAG + str(flag),
                             args_hint=kp.ItemArgsHint.ACCEPTED,
@@ -241,18 +241,17 @@ class BinaryFlags(kp.Plugin):
                     else:
                         items.append(self.create_item(
                             category=self.CATEGORY_SINGLE_FLAG,
-                            label=str(flag_set).lower()
+                            label=format_str.format(flag,
+                                                    self.UNKNOWN_FLAG_LABEL,
+                                                    bit_length=binary_digits,
+                                                    hex_length=hex_digits,
+                                                    length=dez_digits)
                             if show_all else format_str.format(flag,
                                                                self.UNKNOWN_FLAG_LABEL,
                                                                bit_length=binary_digits,
                                                                hex_length=hex_digits,
                                                                length=dez_digits),
-                            short_desc=(format_str.format(flag,
-                                                          self.UNKNOWN_FLAG_LABEL,
-                                                          bit_length=binary_digits,
-                                                          hex_length=hex_digits,
-                                                          length=dez_digits)
-                                        if show_all else "")
+                            short_desc=(str(flag_set).lower() if show_all else "")
                             + "   (press tab to toggle, enter to copy)",
                             target=self.TARGET_PREFIX_FLAG + str(flag),
                             args_hint=kp.ItemArgsHint.ACCEPTED,
